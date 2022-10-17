@@ -1,6 +1,9 @@
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.4;
 
 // 00 - 0b => Arithmetic operations
+
+abstract contract Opcodes {
 {
 	uint8 constant STOP = 0x00;
 	uint8 constant ADD = 0x01;
@@ -184,4 +187,5 @@ pragma solidity ^0.8.13;
 	uint8 constant REVERT = 0xfd;
 	uint8 constant INVALID = 0xfe;
 	uint8 constant SELFDESTRUCT = 0xff;
+}
 }
