@@ -7,7 +7,7 @@
     "func-name-mixedcase": ["off"],
     "no-empty-blocks": ["off"],
     "private-vars-leading-underscore": "off",
-    "max-line-length": "warn",
+    "max-line-length": "off",
     "ordering": "warn",
     "reason-string": ["warn", { "maxLength": 48 }],
     "func-visibility": ["warn", { "ignoreConstructors": true }]
