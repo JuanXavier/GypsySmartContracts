@@ -83,7 +83,7 @@ contract Staking {
     }
 
     function setRewardsDuration(uint256 _duration) external onlyOwner {
-        if (finishAt >= block.timestamp) revert TooSoon();
+        if (block.timestamp < finishAt) revert TooSoon();
         duration = _duration;
     }
 
