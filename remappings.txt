@@ -1,3 +1,5 @@
+@chainlink/=lib/chainlink/
 @openzeppelin/=lib/openzeppelin-contracts/
 @uniswap/=lib/v2-periphery/
-@chainlink/=lib/chainlink/
+@uniswap/=lib/v2-core/
+

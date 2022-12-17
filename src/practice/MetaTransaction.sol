@@ -1,9 +1,7 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-//import "hardhat/console.sol";
-
-////// https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/cryptography/ECDSA.sol
-import "@openzeppelin/contracts/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract YourContract is Ownable {

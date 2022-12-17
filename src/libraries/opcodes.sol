@@ -3,6 +3,8 @@ pragma solidity 0.8.4;
 
 // 00 - 0b => Arithmetic operations
 
+
+
 abstract contract Opcodes {
 {
 	uint8 constant STOP = 0x00;
@@ -18,8 +20,8 @@ abstract contract Opcodes {
 	uint8 constant EXP = 0x0a;
 	uint8 constant SIGNEXTEND = 0x0b; ///< extend length of signed integer
 }
-// 10 - 1d => Arithmetic comparisons
-{
+
+{	// 10 - 1d => Arithmetic comparisons
 	uint8 constant LT = 0x10;
 	uint8 constant GT = 0x11;
 	uint8 constant SLT = 0x12; ///< signed less-than comparision

@@ -1,29 +1,26 @@
 //SPDX-License-Identifier: MIT
-pragma solidity 0.8.4;
+pragma solidity 0.8.17;
 
+/**
+ *@notice Parses arrays in assembly
+ */
 contract AngleExplainsBase {
     uint256 private secretNumber;
     mapping(address => uint256) public guesses;
     bytes32 public secretWord;
 
-    // obviously this doesn't make sense
-    // but it will be fun to write it in assembly :D
     function getSecretNumber() external view returns (uint256) {
         return secretNumber;
     }
 
-    // this can only be set by an admin
-    // no access control because we want to keep it simple in assembly
     function setSecretNumber(uint256 number) external {
         secretNumber = number;
     }
 
-    // a user can add a guess
     function addGuess(uint256 _guess) external {
         guesses[msg.sender] = _guess;
     }
 
-    // yes I know... it doesn't make sense because you can change guesses for any user
     // it's just to teach you how to parse arrays in assembly
     function addMultipleGuesses(address[] memory _users, uint256[] memory _guesses) external {
         for (uint256 i = 0; i < _users.length; i++) {
@@ -34,7 +31,7 @@ contract AngleExplainsBase {
     // this is useless since the `secretWord` is not used anywhere
     // but this will teach us how to hash a string in assembly. Really cool! :)
     function hashSecretWord(string memory _str) external {
-        secretWord = keccak256(abi.encodePacked(_str));
+        secretWord = keccak256(abi.encode(_str));
     }
 }
 
