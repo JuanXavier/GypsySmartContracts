@@ -1,11 +1,12 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
+import "@uniswap/periphery/contracts/interfaces/IUniswapV2Router02.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "forge-std/console.sol";
 
 contract LeBo {
-    IUniswapV2Router constant router = IUniswapV2Router(0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F);
+    IUniswapV2Router02 constant router = IUniswapV2Router02(0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F);
 
     IERC20 constant WETH = IERC20(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
     IERC20 constant DAI = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);

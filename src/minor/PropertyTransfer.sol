@@ -31,16 +31,16 @@ contract PropertyTransfer {
 
     function getPropertyCountOfAnyAddress(address _ownerAddress) public returns (uint256) {
         uint256 count = 0;
-        for (count; i < individualCountOfPropertyPerOwner[_ownerAddress]; count++) {
+        for (uint256 i; i < individualCountOfPropertyPerOwner[_ownerAddress]; count++) {
             if (propertiesOwner[_ownerAddress][i].isSold != true) {}
         }
         return count;
     }
 
-    function allotProperty(address _verifiedOwner, string _propertyName) public onlyOwner {
+    function allotProperty(address _verifiedOwner, string memory _propertyName) public onlyOwner {
         propertiesOwner[_verifiedOwner][individualCountOfPropertyPerOwner[_verifiedOwner]++].name = _propertyName;
-        totalNoProperty++;
-        PropertyAlloted(
+        totalNoOfProperty++;
+        emit PropertyAlloted(
             _verifiedOwner,
             individualCountOfPropertyPerOwner[_verifiedOwner],
             _propertyName,
@@ -48,7 +48,7 @@ contract PropertyTransfer {
         );
     }
 
-    function isOwner(address _checkOwnerAddress, string _propertyName) public returns (uint256) {
+    function isOwner(address _checkOwnerAddress, string memory _propertyName) public returns (uint256) {
         uint256 i;
         bool flag;
 
@@ -70,11 +70,11 @@ contract PropertyTransfer {
         }
     }
 
-    function stringsEqual(string a1, string a2) public returns (bool) {
-        return sha3(a1) == sha3(a2) ? true : false;
+    function stringsEqual(string memory a1, string memory a2) public returns (bool) {
+        return keccak256(bytes(a1)) == keccak256(bytes(a2)) ? true : false;
     }
 
-    function transferProperty(address _to, string _propertyName) public returns (bool, uint256) {
+    function transferProperty(address _to, string memory _propertyName) public returns (bool, uint256) {
         uint256 checkOwner = isOwner(msg.sender, _propertyName);
         bool flag;
 
@@ -83,10 +83,10 @@ contract PropertyTransfer {
             propertiesOwner[msg.sender][checkOwner].name = "Sold";
             propertiesOwner[_to][individualCountOfPropertyPerOwner[_to]++].name = _propertyName;
             flag = true;
-            PropertyTransferred(msg.sender, _to, _propertyName, "Owner has been changed");
+            emit PropertyTransferred(msg.sender, _to, _propertyName, "Owner has been changed");
         } else {
             flag = false;
-            PropertyTransferred(msg.sender, _to, _propertyName, "Owner doesn't own the property");
+            emit PropertyTransferred(msg.sender, _to, _propertyName, "Owner doesn't own the property");
         }
         return (flag, checkOwner);
     }

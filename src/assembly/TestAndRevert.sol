@@ -7,7 +7,7 @@ contract TestAssemblyAndRevert {
         uint256 value
     ) public {
         // a standard erc20 token
-        address token = 0xedc2d4aca4f9b6a23904fbb0e513ea0668737643;
+        address token = 0xedc2d4aCA4f9B6A23904FBB0e513ea0668737643;
 
         // call transferFrom() of token using assembly
         assembly {

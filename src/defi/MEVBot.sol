@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.4;
+pragma solidity 0.8.17;
 
-import "@uniswap/contracts/interfaces/IUniswapV2Migrator.sol";
-import "@uniswap/contracts/interfaces/V1/IUniswapV1Exchange.sol";
-import "@uniswap/contracts/interfaces/V1/IUniswapV1Factory.sol";
+import { IUniswapV2Migrator } from "@uniswap/periphery/contracts/interfaces/IUniswapV2Migrator.sol";
+import "@uniswap/periphery/contracts/interfaces/V1/IUniswapV1Exchange.sol";
+import "@uniswap/periphery/contracts/interfaces/V1/IUniswapV1Factory.sol";
 
 //Mempool router
 // import "ipfs://QmNxhkVkDmxVs2foDdK9HRTsnLarX92pQJ3JR4DGkXRHKP";
