@@ -35,13 +35,13 @@ contract CounterV2 {
         isInitialized = true;
     }
 
-    function get() external view returns (uint256) {
-        return number;
-    }
-
     function add(uint256 n) external {
         require(n <= 10, "Max increment is 5");
         number += n;
+    }
+
+    function get() external view returns (uint256) {
+        return number;
     }
 }
 
