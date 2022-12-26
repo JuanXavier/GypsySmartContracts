@@ -7,7 +7,6 @@ contract Token {
     address immutable owner;
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;
-
     string name;
 
     constructor(string memory _name) {
@@ -25,8 +24,8 @@ contract StorageTest is Test {
     address Alice = makeAddr("Alice");
 
     function testLoadBalance() public {
-        Token t = new Token("Hi");
-        t.mint(Alice, 5 ether);
+        Token t = new Token("Hi"); // Deploy
+        t.mint(Alice, 5 ether); // Mint
 
         // Compute the slot at which Alice's balance is stored in the Token contract
         bytes32 aliceBalanceSlot = keccak256(abi.encodePacked(uint256(uint160(Alice)), uint256(1)));

@@ -3,7 +3,6 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 
-
 // The logic contract
 contract Counter {
     bool isInitialized;
@@ -15,7 +14,7 @@ contract Counter {
         isInitialized = true;
     }
 
-    function get() external view returns(uint256) {
+    function get() external view returns (uint256) {
         return number;
     }
 
@@ -24,7 +23,6 @@ contract Counter {
         number += n;
     }
 }
-
 
 // Second version of the logic contract, allowing the counter to be increased by up to 10 steps at a time
 contract CounterV2 {
@@ -37,7 +35,7 @@ contract CounterV2 {
         isInitialized = true;
     }
 
-    function get() external view returns(uint256) {
+    function get() external view returns (uint256) {
         return number;
     }
 
@@ -47,10 +45,8 @@ contract CounterV2 {
     }
 }
 
-
 contract Proxy {
-    bytes32 constant IMPLEMENTATION_SLOT =
-        bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
+    bytes32 constant IMPLEMENTATION_SLOT = bytes32(uint256(keccak256("eip1967.proxy.implementation")) - 1);
 
     function upgradeTo(address newImpl) external {
         bytes32 slot = IMPLEMENTATION_SLOT;
@@ -59,7 +55,7 @@ contract Proxy {
         }
     }
 
-    function implementation() public view returns(address impl) {
+    function implementation() public view returns (address impl) {
         bytes32 slot = IMPLEMENTATION_SLOT;
         assembly {
             impl := sload(slot)
@@ -69,8 +65,7 @@ contract Proxy {
     fallback() external payable {
         (bool ok, bytes memory returnData) = implementation().delegatecall(msg.data);
 
-        if(!ok)
-            revert("Calling logic contract failed");
+        if (!ok) revert("Calling logic contract failed");
 
         // Forward the return value
         assembly {
@@ -80,7 +75,6 @@ contract Proxy {
         }
     }
 }
-
 
 contract ProxyTest is Test {
     function testProxy() public {

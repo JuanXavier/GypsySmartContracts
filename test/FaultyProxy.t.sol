@@ -3,12 +3,11 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 
-
 // The logic contract
 contract Counter {
     uint256 number;
 
-    function get() external view returns(uint256) {
+    function get() external view returns (uint256) {
         return number;
     }
 
@@ -17,7 +16,6 @@ contract Counter {
         number += n;
     }
 }
-
 
 // The proxy
 contract FaultyProxy {
@@ -29,9 +27,7 @@ contract FaultyProxy {
 
     fallback() external payable {
         (bool ok, bytes memory returnData) = implementation.delegatecall(msg.data);
-
-        if(!ok)
-            revert("Calling logic contract failed");
+        if (!ok) revert("Calling logic contract failed");
 
         // Forward the return value
         assembly {
@@ -41,7 +37,6 @@ contract FaultyProxy {
         }
     }
 }
-
 
 contract FaultyProxyTest is Test {
     // For this test to pass it must revert
