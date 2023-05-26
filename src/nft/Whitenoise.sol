@@ -1,16 +1,11 @@
-/**
- *Submitted for verification at Optimistic.Etherscan.io on 2022-09-20
-*/
-
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-/// [MIT License]
 /// @title Base64
 /// @notice Provides a function for encoding some bytes in base64
 /// @author Brecht Devos <brecht@loopring.org>
 library Base64 {
-    bytes internal constant TABLE =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    bytes internal constant TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
     /// @notice Encodes some bytes to the base64 representation
     function encode(bytes memory data) internal pure returns (string memory) {
@@ -39,20 +34,11 @@ library Base64 {
 
                 let out := mload(add(tablePtr, and(shr(18, input), 0x3F)))
                 out := shl(8, out)
-                out := add(
-                    out,
-                    and(mload(add(tablePtr, and(shr(12, input), 0x3F))), 0xFF)
-                )
+                out := add(out, and(mload(add(tablePtr, and(shr(12, input), 0x3F))), 0xFF))
                 out := shl(8, out)
-                out := add(
-                    out,
-                    and(mload(add(tablePtr, and(shr(6, input), 0x3F))), 0xFF)
-                )
+                out := add(out, and(mload(add(tablePtr, and(shr(6, input), 0x3F))), 0xFF))
                 out := shl(8, out)
-                out := add(
-                    out,
-                    and(mload(add(tablePtr, and(input, 0x3F))), 0xFF)
-                )
+                out := add(out, and(mload(add(tablePtr, and(input, 0x3F))), 0xFF))
                 out := shl(224, out)
 
                 mstore(resultPtr, out)
@@ -153,11 +139,7 @@ abstract contract ERC721 {
         emit ApprovalForAll(msg.sender, operator, approved);
     }
 
-    function transferFrom(
-        address from,
-        address to,
-        uint256 id
-    ) public virtual {
+    function transferFrom(address from, address to, uint256 id) public virtual {
         require(from == _ownerOf[id], "WRONG_FROM");
 
         require(to != address(0), "INVALID_RECIPIENT");
@@ -182,11 +164,7 @@ abstract contract ERC721 {
         emit Transfer(from, to, id);
     }
 
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 id
-    ) public virtual {
+    function safeTransferFrom(address from, address to, uint256 id) public virtual {
         transferFrom(from, to, id);
 
         require(
@@ -197,12 +175,7 @@ abstract contract ERC721 {
         );
     }
 
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 id,
-        bytes calldata data
-    ) public virtual {
+    function safeTransferFrom(address from, address to, uint256 id, bytes calldata data) public virtual {
         transferFrom(from, to, id);
 
         require(
@@ -275,11 +248,7 @@ abstract contract ERC721 {
         );
     }
 
-    function _safeMint(
-        address to,
-        uint256 id,
-        bytes memory data
-    ) internal virtual {
+    function _safeMint(address to, uint256 id, bytes memory data) internal virtual {
         _mint(to, id);
 
         require(
@@ -294,12 +263,7 @@ abstract contract ERC721 {
 /// @notice A generic interface for a contract which properly accepts ERC721 tokens.
 /// @author Solmate (https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol)
 abstract contract ERC721TokenReceiver {
-    function onERC721Received(
-        address,
-        address,
-        uint256,
-        bytes calldata
-    ) external virtual returns (bytes4) {
+    function onERC721Received(address, address, uint256, bytes calldata) external virtual returns (bytes4) {
         return ERC721TokenReceiver.onERC721Received.selector;
     }
 }
@@ -453,7 +417,8 @@ contract WhitenoiseNFT is ERC721, ReentrancyGuard {
     /// @notice Get the token URI of a token ID
     function tokenURI(uint256 id) public pure override returns (string memory) {
         string memory name = "Optimizer";
-        string memory description = "A Soulbound token demonstrating a mastery in optimization and evm wizardry. This address submitted the most optimized solution to the first Whitenoise challenge.";
+        string
+            memory description = "A Soulbound token demonstrating a mastery in optimization and evm wizardry. This address submitted the most optimized solution to the first Whitenoise challenge.";
         string memory img_url = "ipfs://QmT5v6ioQMUHgsYXTXL8oAaVAitxqK6NE7Q5bacUzTVgbA";
 
         // Check for creator special edition
@@ -488,21 +453,20 @@ contract WhitenoiseNFT is ERC721, ReentrancyGuard {
         );
 
         // Prepend data:application/json;base64 to define the base64 encoded data
-        return string(
-            abi.encodePacked("data:application/json;base64,", json)
-        );
+        return string(abi.encodePacked("data:application/json;base64,", json));
     }
 
     /// @notice Returns the current Chad.
     function theChad() public view returns (Chad memory chad) {
         uint256 _numChads = numChads;
         if (_numChads == 0) {
-            return Chad({
-                solver: address(0),
-                score: type(uint128).max,
-                gasUsed: type(uint64).max,
-                codeSize: type(uint64).max
-            });
+            return
+                Chad({
+                    solver: address(0),
+                    score: type(uint128).max,
+                    gasUsed: type(uint64).max,
+                    codeSize: type(uint64).max
+                });
         } else {
             return leaderboard[_numChads - 1];
         }
@@ -529,11 +493,7 @@ contract WhitenoiseNFT is ERC721, ReentrancyGuard {
 
     /// @notice Submit a new solution.
     /// @dev Only callable by the owner of this contract (DovesInTheWind.huff)
-    function submit(address _solver, uint256 gasUsed, uint256 codeSize)
-        external
-        onlyOwner
-        nonReentrant
-    {
+    function submit(address _solver, uint256 gasUsed, uint256 codeSize) external onlyOwner nonReentrant {
         // Assert that the the challenge is not over
         if (block.timestamp >= END_TIME) {
             revert OnlyDuringChallenge();
@@ -574,10 +534,14 @@ contract WhitenoiseNFT is ERC721, ReentrancyGuard {
     function transferOwnership(address _newOwner) external onlyOwner {
         assembly {
             // Don't allow ownership transfer to a non-contract.
-            if iszero(extcodesize(_newOwner)) { revert(0x00, 0x00) }
+            if iszero(extcodesize(_newOwner)) {
+                revert(0x00, 0x00)
+            }
 
             // Once the owner is set to a contract, it can no longer be changed.
-            if iszero(iszero(extcodesize(sload(owner.slot)))) { revert(0x00, 0x00) }
+            if iszero(iszero(extcodesize(sload(owner.slot)))) {
+                revert(0x00, 0x00)
+            }
         }
 
         // Update the owner to a contract.
